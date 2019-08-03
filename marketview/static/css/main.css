@@ -1,0 +1,67 @@
+@font-face {
+  font-family: IRANSans-web;
+  src: url(/static/fonts/IRANSans-Bold-web.eot?c262ecaca0441a5f9781164472250fb0);
+  src: url(/static/fonts/IRANSans-Bold-web.eot?c262ecaca0441a5f9781164472250fb0) format("eot"), url(/static/fonts/IRANSans-Bold-web.woff2?41cc575861b85559b8a149e187352c68) format("woff2"), url(/fonts/IRANSans-Bold-web.woff?ff09ae29018d849d8a06cfd5adfeda9f) format("woff"), url(/static/fonts/IRANSans-Bold-web.ttf?28bd707ed8dd2834146396b0b46ba55e) format("ttf");
+  font-weight: 700;
+}
+
+@font-face {
+  font-family: IRANSans-web;
+  src: url(/static/fonts/IRANSans-Medium-web.eot?a56979af252f4a0267dc5f4bd3834ff3);
+  src: url(/static/fonts/IRANSans-Medium-web.eot?a56979af252f4a0267dc5f4bd3834ff3) format("eot"), url(/static/fonts/IRANSans-Medium-web.woff2?068aff9626a6808a412979cd68987229) format("woff2"), url(/static/fonts/IRANSans-Medium-web.woff?40c16fc56698826ea05a7f5dcc255fa3) format("woff"), url(/static/fonts/IRANSans-Medium-web.ttf?429db91d3fb1c8e756276abb1df0ab00) format("ttf");
+  font-weight: 500;
+}
+
+@font-face {
+  font-family: IRANSans-web;
+  src: url(/static/fonts/IRANSans-UltraLight-web.eot?bb0a2fa6fbd8aabc1424e6361a06fc4e);
+  src: url(/static/fonts/IRANSans-UltraLight-web.eot?bb0a2fa6fbd8aabc1424e6361a06fc4e) format("eot"), url(/static/fonts/IRANSans-UltraLight-web.woff2?7b3c6059e6ffb34e09973a4d56f64ab8) format("woff2"), url(/static/fonts/IRANSans-UltraLight-web.woff?0c77febbb227a71ea072efee784990d6) format("woff"), url(/static/fonts/IRANSans-UltraLight-web.ttf?a6525ec17f27b4a934e5e2f7f83e8a4d) format("ttf");
+  font-weight: 200;
+}
+
+@font-face {
+  font-family: IRANSans-web;
+  src: url(/static/fonts/IRANSans-Light-web.eot?6481326d624a552331323c6d8192a7df);
+  src: url(/static/fonts/IRANSans-Light-web.eot?6481326d624a552331323c6d8192a7df) format("eot"), url(/static/fonts/IRANSans-Light-web.woff2?deecd7b9e79a829f0addc7b477f78d66) format("woff2"), url(/static/fonts/IRANSans-Light-web.woff?76bb19b90c120aa43939c94d493e4da9) format("woff"), url(/static/fonts/IRANSans-Light-web.ttf?c05bd20d1dec4b33928b89de00c9a196) format("ttf");
+  font-weight: 300;
+}
+
+@font-face {
+  font-family: IRANSans-web;
+  src: url(/static/fonts/IRANSans-web.eot?c6bb79c46e7aba20c552424fb67f6794);
+  src: url(/static/fonts/IRANSans-web.eot?c6bb79c46e7aba20c552424fb67f6794) format("eot"), url(/static/fonts/IRANSans-web.woff2?061879d0abf3f99af35c8ea1b78f5727) format("woff2"), url(/static/fonts/IRANSans-web.woff?291d7f6a0fe6b7cb2c5b27663d3ae3e6) format("woff"), url(/static/fonts/IRANSans-web.ttf?77425e1f910152b28af1d889d91cc104) format("ttf");
+  font-weight: 400;
+}
+
+@font-face {
+  font-family: IRAN-web;
+  src: url(/static/fonts/IRANBold.eot?f9e8e0ba386cad3c2e984fcc9a0a57e3);
+  src: url(/static/fonts/IRANBold.eot?f9e8e0ba386cad3c2e984fcc9a0a57e3) format("eot"), url(/static/fonts/IRANBold.woff2?7b79094764f9f726773461596b46192e) format("woff2"), url(/static/fonts/IRANBold.woff?d2a5520d3c739300f7f9ba36d81a6dd7) format("woff"), url(/static/fonts/IRANBold.ttf?bd97343d7fd1229bcf17f096da197817) format("ttf");
+  font-weight: 700;
+}
+
+@font-face {
+  font-family: IRAN-web;
+  src: url(/static/fonts/IRAN_SemiBold.eot?232bfd9cfff4f930f1d456296b60dc77);
+  src: url(/static/fonts/IRAN_SemiBold.eot?232bfd9cfff4f930f1d456296b60dc77) format("eot"), url(/static/fonts/IRAN_SemiBold.woff2?8e054362d3129e4bbac29fc4023352f2) format("woff2"), url(/static/fonts/IRAN_SemiBold.woff?19c54dfa3afc882a62c99f08fa646f46) format("woff"), url(/static/fonts/IRAN_SemiBold.ttf?875b3882cf59cb9b9a38edc27071d57c) format("ttf");
+  font-weight: 600;
+}
+
+@font-face {
+  font-family: IRAN-web;
+  src: url(/static/fonts/IRANBlack.eot?228c6a11c850db1d35f574b0ea47eedc);
+  src: url(/static/fonts/IRANBlack.eot?228c6a11c850db1d35f574b0ea47eedc) format("eot"), url(/static/fonts/IRANBlack.woff2?474f830250f7a660bdf7649e411b1920) format("woff2"), url(/static/fonts/IRANBlack.woff?2c4b0c8b3e206668e8f9ac5e5db0a052) format("woff"), url(/static/fonts/IRANBlack.ttf?1d5fe2ad615cefb91f8df4d77597dd5a) format("ttf");
+  font-weight: 900;
+}
+
+@font-face {
+  font-family: IRAN-web;
+  src: url(/static/fonts/IRAN.eot?232bfd9cfff4f930f1d456296b60dc77);
+  src: url(/static/fonts/IRAN.eot?232bfd9cfff4f930f1d456296b60dc77) format("eot"), url(/static/fonts/IRAN.woff2?0fb96cbb2dc0c19a1733dd8cc0434fd1) format("woff2"), url(/static/fonts/IRAN.woff?fc0b08e684178dc8e693831c631800b2) format("woff"), url(/static/fonts/IRAN.ttf?eddd2c5f7131ee717853bf70f4dea608) format("ttf");
+  font-weight: 400;
+}
+
+.highcharts-root {
+    font-family: "IRAN-web", "IRANSans-web", Arial, Helvetica, sans-serif !important;
+    font-size: 12px;
+}

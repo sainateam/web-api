@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+{% load static %}
+{% load render_bundle from webpack_loader %}
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" type="text/css" href="https://code.highcharts.com/css/stocktools/gui.css">
+    <link rel="stylesheet" type="text/css" href="https://code.highcharts.com/css/annotations/popup.css">
+
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+    <script src="https://code.highcharts.com/stock/highstock.js"></script>
+    <script src="https://code.highcharts.com/stock/modules/exporting.js"></script>
+    <script src="https://code.highcharts.com/stock/modules/export-data.js"></script>
+    <script src="https://code.highcharts.com/stock/indicators/indicators-all.js"></script>
+    <script src="https://code.highcharts.com/stock/modules/drag-panes.js"></script>
+
+    <script src="https://code.highcharts.com/modules/annotations-advanced.js"></script>
+    <script src="https://code.highcharts.com/modules/price-indicator.js"></script>
+    <script src="https://code.highcharts.com/modules/full-screen.js"></script>
+
+    <script src="https://code.highcharts.com/modules/stock-tools.js"></script>
+    <script src="{% static "js/jdate/jdate.min.js" %}"></script>
+
+    <script>
+        window.ODate = Date;
+        window.Date = JDate;
+    </script>
+
+    <link rel="stylesheet" href="https://code.highcharts.com/css/highcharts.css" />
+    <link rel="stylesheet" href="{% static "css/main.css" %}" />
+
+    <style>
+        #container {
+            max-height: 800px;
+            height: 75vh;
+        }
+
+        #containerohlc {
+            max-height: 800px;
+            height: 75vh;
+        }
+
+        /* Conflict with Bootstrap, not needed after v7.0.1 */
+        .highcharts-bindings-wrapper * {
+            box-sizing: content-box;
+        }
+
+
+    </style>
+    <title>Journal</title>
+</head>
+
+<body>
+    <div id="app">
+        <div id="containerohlc" style="height: 400px; min-width: 310px"></div>
+        <div id = "container" style = "width: 900px; height: 600px; margin: 0 auto"></div>
+        <div id="containerpie" style="min-width: 310px; height: 400px; max-width: 600px; margin: 0 auto"></div>
+    </div>
+    {% render_bundle 'main' %}
+
+    <script language = "JavaScript">
+
+    $(function () {
+        ///////////// start: change highcharts digits to persian digits
+        function digits_en2fa (number){
+            return number.toString().replace(/\d/g, function(d){
+                return String.fromCharCode(d.charCodeAt(0) + 1728);
+            });
+        }
+        function pInt(s, mag) {
+            return parseInt(s, mag || 10);
+        }
+        function oldNumberFormat(number, decimals, decPoint, thousandsSep) {
+            var lang = Highcharts.getOptions().lang,
+                // http://kevin.vanzonneveld.net/techblog/article/javascript_equivalent_for_phps_number_format/
+                n = +number || 0,
+                c = decimals === -1 ?
+                    (n.toString().split('.')[1] || '').length : // preserve decimals
+                    (isNaN(decimals = Math.abs(decimals)) ? 2 : decimals),
+                d = decPoint === undefined ? lang.decimalPoint : decPoint,
+                t = thousandsSep === undefined ? lang.thousandsSep : thousandsSep,
+                s = n < 0 ? "-" : "",
+                i = String(pInt(n = Math.abs(n).toFixed(c))),
+                j = i.length > 3 ? i.length % 3 : 0;
+
+            return s + (j ? i.substr(0, j) + t : "") + i.substr(j).replace(/(\d{3})(?=\d)/g, "$1" + t) +
+                (c ? d + Math.abs(n - i).toFixed(c).slice(2) : "");
+        }
+        Highcharts.numberFormat = function(a,b,c,d){return digits_en2fa(oldNumberFormat(a,b,c,d))};
+        ///////////// end: change highcharts digits to persian digits
+
+        Highcharts.setOptions({
+            lang: {
+                months: ['فروردين', 'ارديبهشت', 'خرداد', 'تیر', 'مرداد', 'شهریور', 'مهر', 'آبان', 'آذر', 'دی', 'بهمن', 'اسفند'],
+                shortMonths: ['فروردين', 'ارديبهشت', 'خرداد', 'تیر', 'مرداد', 'شهریور', 'مهر', 'آبان', 'آذر', 'دی', 'بهمن', 'اسفند'],
+                weekdays: ["یکشنبه", "دوشنبه", "سه شنبه", "چهارشنبه", "پنج‌شنبه", "جمعه", "شنبه"]
+            }
+        });
+
+        $.getJSON('http://127.0.0.1:8000/api/getOHLC/35425587644337450', function (data) {
+
+            // create the chart
+            Highcharts.stockChart('containerohlc', {
+
+
+                rangeSelector: {
+                    selected: 2
+                },
+
+                title: {
+                    text: 'قیمت سهام فملی'
+                },
+
+                tooltip: {
+                    shape: 'square',
+                    headerShape: 'callout',
+                    borderWidth: 0,
+                    shadow: false,
+                    positioner: function (width, height, point) {
+                        var chart = this.chart,
+                            position;
+
+                        if (point.isHeader) {
+                            position = {
+                                x: Math.max(
+                                    // Left side limit
+                                    chart.plotLeft,
+                                    Math.min(
+                                        point.plotX + chart.plotLeft - width / 2,
+                                        // Right side limit
+                                        chart.chartWidth - width - chart.marginRight
+                                    )
+                                ),
+                                y: point.plotY
+                            };
+                        } else {
+                            position = {
+                                x: point.series.chart.plotLeft,
+                                y: point.series.yAxis.top - chart.plotTop
+                            };
+                        }
+
+                        return position;
+                    }
+                },
+
+                series: [{
+                    type: 'candlestick',
+                    name: 'قیمت سهام فملی',
+                    data: data,
+                    dataGrouping: {
+                        units: [[
+                            'week', // unit name
+                            [1] // allowed multiples
+                        ], [
+                            'month',
+                            [1, 2, 3, 4, 6]
+                        ]]
+                    }
+                }],
+
+                responsive: {
+                    rules: [{
+                        condition: {
+                            maxWidth: 800
+                        },
+                        chartOptions: {
+                            rangeSelector: {
+                                inputEnabled: false
+                            }
+                        }
+                    }]
+                }
+            });
+        });
+        
+
+        $.getJSON('http://127.0.0.1:8000/api/getDailyData/35425587644337450', function (data) {
+            // Create the chart
+            Highcharts.stockChart('container', {
+
+
+                rangeSelector: {
+                    selected: 1
+                },
+
+                title: {
+                    text: 'حجم معاملات حقوقی سهام فملی'
+                },
+
+                yAxis: [{
+                    title: {
+                        text: 'حجم معاملات'
+                    },
+                    labels: {
+                        align: 'left'
+                    },
+                    height: '80%',
+                    resize: {
+                        enabled: true
+                    }
+                }, {
+                    title: {
+                        text: 'تعداد معاملات'
+                    },
+                    labels: {
+                        align: 'left'
+                    },
+                    top: '80%',
+                    height: '20%',
+                    offset: 0
+                }],
+
+                series: [{
+                    name: 'حجم حقیقی',
+                    data: data.real.volume,
+                    type: 'line',
+                    color: '#7bec92',
+                },
+                {
+                    name: 'حجم حقوقی',
+                    data: data.legal.volume,
+                    type: 'line',
+                    color: '#7580e5',
+                },
+                {
+                    name: 'تعداد حقیقی',
+                    data: data.real.count,
+                    type: 'column',
+                    color: '#7bec92',
+                    yAxis: 1,
+                },
+                {
+                    name: 'تعداد حقوقی',
+                    data: data.legal.count,
+                    type: 'column',
+                    color: '#7580e5',
+                    yAxis: 1,
+                }]
+            });
+        });
+
+        
+        $.getJSON('http://127.0.0.1:8000/api/getShareholders/35425587644337450', function (data) {
+            // Create the chart
+            Highcharts.chart('containerpie', {
+                chart: {
+                    plotBackgroundColor: null,
+                    plotBorderWidth: null,
+                    plotShadow: false,
+                    type: 'pie'
+                },
+                title: {
+                    text: 'سهم‌داران فملی'
+                },
+                tooltip: {
+                    pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+                },
+                plotOptions: {
+                    pie: {
+                        allowPointSelect: true,
+                        cursor: 'pointer',
+                        dataLabels: {
+                            enabled: true,
+                            format: '<b>{point.name}</b>: {point.percentage:.1f} %',
+                        }
+                    }
+                },
+                series: [{
+                    name: 'سهام‌داران',
+                    colorByPoint: true,
+                    data: data
+                }]
+            });
+        });
+
+
+    });
+	
+    </script>
+</body>
+
+</html>
